@@ -1,0 +1,13 @@
+{
+  "name": "adventofcode-2022",
+  "version": "1.0.0",
+  "description": "[Advent of Code](https://adventofcode.com/2022/) is an Advent calendar of small programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language you like.",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  }
+}
