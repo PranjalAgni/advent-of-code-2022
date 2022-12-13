@@ -62,5 +62,3 @@ const findMaximumCalorie = (calorieList) => {
   const maxCalorie = findMaximumCalorie(calorieList);
   console.log('Max calorie ', maxCalorie);
 })();
-
-threeNumberSort([1, 2, 3, 4, 5, 6, 7, 8]);
