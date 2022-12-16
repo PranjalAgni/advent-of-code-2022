@@ -14,10 +14,10 @@ const getPriorityValue = (ch) => {
  * @param {Array<string>} group
  */
 const findCommonCharacters = (group) => {
-  const [word1, word2, word3] = group;
-  const hashSet = new Set(word1);
-  let intersection = new Set([...word2].filter((ch) => hashSet.has(ch)));
-  intersection = new Set([...word3].filter((ch) => intersection.has(ch)));
+  let intersection = new Set(group.shift());
+  for (const word of group) {
+    intersection = new Set([...word].filter((ch) => intersection.has(ch)));
+  }
   return Array.from(intersection);
 };
 
@@ -28,7 +28,7 @@ const solve = (groupedList) => {
   let answer = 0;
   for (const group of groupedList) {
     const commonCharacter = findCommonCharacters(group);
-    answer += getPriorityValue(commonCharacter[0]);
+    answer += getPriorityValue(commonCharacter.shift());
   }
 
   return answer;
