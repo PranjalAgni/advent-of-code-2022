@@ -95,6 +95,7 @@ class Disk {
    */
   constructor(filesystem) {
     this.fs = filesystem;
+    this.diskspace = 700_000_00;
   }
 
   listDirectoryWithSize(directory, currentDirList) {
@@ -117,9 +118,34 @@ class Disk {
 
     return totalSize;
   }
+
+  getDirectoryToDelete() {
+    const dirList = this.listDirectoryWithSize(this.fs.rootDirectory, []);
+    const totalSize = this.fs.rootDirectory.size();
+  }
 }
 
 module.exports = {
   Filesystem,
   Disk,
 };
+
+/**
+ * Find possible directories we can delete to free up enough space for update
+ * @param {number} spaceForUpdate
+ * @returns
+ */
+// getDirectoryToDelete(spaceForUpdate) {
+//   const dirList = this.listDirectoryWithSize(this.fs.rootDirectory, []);
+//   const totalSize = this.fs.rootDirectory.size();
+//   // add the root directory and its size
+//   dirList.push({ name: '/', size: totalSize });
+
+//   const unusedSpace = this.diskspace - totalSize;
+//   const spaceToFreeUp = spaceForUpdate - unusedSpace;
+//   const directoriesWithEnoughSpace = dirList.filter((dir) => {
+//     return dir.size >= spaceToFreeUp;
+//   });
+
+//   return directoriesWithEnoughSpace;
+// }

@@ -9,11 +9,18 @@ const solve = (inputList) => {
   const fs = new Filesystem(inputList);
   const disk = new Disk(fs);
   const totalSize = disk.getDirectoryHavingSize(100_000);
-  return totalSize;
+  const possibleDirectory = disk.getDirectoryToDelete(300_000_00);
+  const deletedDirectorySize = Math.min(
+    ...possibleDirectory.map((dir) => dir.size)
+  );
+  return { totalSize, deletedDirectorySize };
 };
 
 (async () => {
-  const INPUT_PATH = path.join(__dirname, 'small.txt');
+  const INPUT_PATH = path.join(__dirname, 'input.txt');
   const inputList = convertInputToList(await readInput(INPUT_PATH));
-  console.log('Part1', solve(inputList));
+  const { totalSize, deletedDirectorySize } = solve(inputList);
+
+  console.log('Part1', totalSize);
+  console.log('Part2', deletedDirectorySize);
 })();
