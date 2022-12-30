@@ -5,7 +5,11 @@ const { readInput, convertInputToList } = require('../utils/data');
  * @param {Array<string>} inputList
  */
 const solve = (inputList) => {
-  console.log(inputList);
+  const rows = inputList.length;
+  for (let row = 0; row < rows; row++) {
+    const currentRow = inputList[row];
+    console.log('Row: ', currentRow);
+  }
 };
 
 (async () => {
