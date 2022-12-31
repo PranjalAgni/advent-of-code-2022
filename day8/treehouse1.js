@@ -21,7 +21,7 @@ const checkIsTreeTallest = (
   isCol
 ) => {
   while (row <= rows && col <= cols) {
-    if (inputList[row] >= treeHeight) return false;
+    if (inputList[row][col] >= treeHeight) return false;
     if (isCol) col += 1;
     else row += 1;
   }
