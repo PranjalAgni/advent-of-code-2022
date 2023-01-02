@@ -1,9 +1,27 @@
 const path = require('path');
 const { readInput, convertInputToList } = require('../utils/data');
 
-// Currently left and up movement is wrong as going upwards we need
-// to start from cell {row, col}
+/**
+ *
+ * @param {Number} row
+ * @param {Number} col
+ * @param {Number} rows
+ * @param {Number} cols
+ */
+const moveLeftOrTop = (row, col, rows, cols) => {
+  return row >= rows && col >= cols;
+};
 
+/**
+ *
+ * @param {Number} row
+ * @param {Number} col
+ * @param {Number} rows
+ * @param {Number} cols
+ */
+const moveRightOrDown = (row, col, rows, cols) => {
+  return row <= rows && col <= cols;
+};
 /**
  *
  * @param {Array<string>} inputList
@@ -13,7 +31,8 @@ const { readInput, convertInputToList } = require('../utils/data');
  * @param {Number} cols
  * @param {Number} treeHeight
  * @param {Boolean} isCol
- * @param {Number} direction
+ * @param {Function} checkMoveFn
+ * @param {String} direction
  */
 const numberOfTreesVisible = (
   inputList,
@@ -22,14 +41,21 @@ const numberOfTreesVisible = (
   rows,
   cols,
   treeHeight,
-  isCol
+  isCol,
+  checkMoveFn,
+  direction
 ) => {
   let answer = 0;
-  while (row <= rows && col <= cols) {
+  while (checkMoveFn(row, col, rows, cols)) {
     answer += 1;
     if (inputList[row][col] >= treeHeight) break;
-    if (isCol) col += 1;
-    else row += 1;
+    if (isCol) {
+      if (direction === 'left') col -= 1;
+      else col += 1;
+    } else {
+      if (direction === 'up') row -= 1;
+      else row += 1;
+    }
   }
 
   return answer;
@@ -50,11 +76,13 @@ const solve = (inputList) => {
       const left = numberOfTreesVisible(
         inputList,
         row,
-        0,
-        row,
         col - 1,
+        row,
+        0,
         height,
-        true
+        true,
+        moveLeftOrTop,
+        'left'
       );
       const right = numberOfTreesVisible(
         inputList,
@@ -63,16 +91,20 @@ const solve = (inputList) => {
         row,
         cols - 1,
         height,
-        true
+        true,
+        moveRightOrDown,
+        'right'
       );
       const top = numberOfTreesVisible(
         inputList,
-        0,
-        col,
         row - 1,
         col,
+        0,
+        col,
         height,
-        false
+        false,
+        moveLeftOrTop,
+        'up'
       );
       const down = numberOfTreesVisible(
         inputList,
@@ -81,10 +113,11 @@ const solve = (inputList) => {
         rows - 1,
         col,
         height,
-        false
+        false,
+        moveRightOrDown,
+        'down'
       );
 
-      console.log({ left, right, top, down, row, col });
       answer = Math.max(answer, left * right * top * down);
     }
   }
@@ -93,7 +126,7 @@ const solve = (inputList) => {
 };
 
 (async () => {
-  const INPUT_PATH = path.join(__dirname, 'small.txt');
+  const INPUT_PATH = path.join(__dirname, 'input.txt');
   const inputList = convertInputToList(await readInput(INPUT_PATH));
   console.log(solve(inputList));
 })();
